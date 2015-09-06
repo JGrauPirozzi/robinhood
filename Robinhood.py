@@ -30,9 +30,8 @@ class Robinhood(object):
 		"watchlists": "https://api.robinhood.com/watchlists/"
 		}
 
-	def __init__(self, username, password, account):
+	def __init__(self, username, password):
 		self.session = requests.session()
-		self.account = account
 		self.username = username
 		self.session.headers = {
 			"Accept": "*/*",
@@ -44,6 +43,7 @@ class Robinhood(object):
 			"User-Agent": "Robinhood/823 (iPhone; iOS 7.1.2; Scale/2.00)"
 		}
 		self.session.headers['Authorization'] = 'Token ' + self.login(username, password)
+		self.account = self.get_account_number()
 		self.get_user_info()
 
 	def login(self, username, password):
@@ -53,6 +53,15 @@ class Robinhood(object):
 			return res.json()['token']
 		except:
 			raise Exception("Could not log in: " + res.text)
+
+	def get_account_number(self):
+		res = self.session.get(self.endpoints['accounts'])
+		if res.status_code == 200:
+			accountURL = res.json()['results'][0]['url']
+			account_number = accountURL[accountURL.index('accounts')+9:-1]
+			return account_number
+		else:
+			raise Exception("Could not retrieve account number: " + res.text)
 
 	def instrument(self, stock):
 		res = self.session.get(self.endpoints['instruments'], params={'query':stock.upper()})
@@ -69,7 +78,7 @@ class Robinhood(object):
 		else:
 			raise Exception("Could not retrieve quote: " + res.text)
 
-	def quote(self, stock):
+	def quote_price(self, stock):
 		data = { 'symbols' : stock }
 		res = self.session.get(self.endpoints['quotes'], params=data)
 		if res.status_code == 200:
