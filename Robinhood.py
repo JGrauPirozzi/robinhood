@@ -96,7 +96,6 @@ class Robinhood(object):
 		return self.place_order(i, quantity, side, order_type, bid_price)
 
 	def cancel_order(self, order_ID):
-		data = ""
 		res = self.session.post(self.endpoints['orders'] + order_ID + "/cancel/")
 		if res.status_code == 200:
 			return res
