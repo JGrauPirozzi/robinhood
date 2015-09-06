@@ -9,12 +9,18 @@ with open('auth.txt', 'r') as f:
 r = Robinhood(username, password, account)
 
 ## Place market order
-order_ID = r.place_buy_order("CSCO", 1, "market")
-print order_ID
+#order_ID = r.place_buy_order("CSCO", 1, "market")
+#print order_ID
 
 ## Place limit order for one share at $39 / share
-order_ID = r.place_buy_order("CSCO", 1, "limit", 39)
-print order_ID
+#order_ID = r.place_buy_order("CSCO", 1, "limit", 39)
+#print order_ID
+
+## Get order status
+#print r.order_status(order_ID)['state']
 
 ## Cancel an order
-r.cancel_order(order_ID)
+#r.cancel_order(order_ID)
+
+## Print your current address
+#print "Your address is: " + r.address + ", " + r.city + ", " + r.state_residence + " " + r.zipcode

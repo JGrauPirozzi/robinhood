@@ -15,7 +15,6 @@ class Robinhood(object):
 		"document_requests": "https://api.robinhood.com/upload/document_requests/",
 		"edocuments": "https://api.robinhood.com/documents/",
 		"instruments": "https://api.robinhood.com/instruments/",
-		"investment_profile": "https://api.robinhood.com/user/investment_profile/",
 		"login": "https://api.robinhood.com/api-token-auth/",
 		"margin_upgrades": "https://api.robinhood.com/margin/upgrades/",
 		"markets": "https://api.robinhood.com/markets/",
@@ -24,12 +23,17 @@ class Robinhood(object):
 		"password_reset": "https://api.robinhood.com/password_reset/request/",
 		"quotes": "https://api.robinhood.com/quotes/",
 		"user": "https://api.robinhood.com/user/",
+		"user/additional_info": "https://api.robinhood.com/user/additional_info/",
+		"user/basic_info": "https://api.robinhood.com/user/basic_info/",
+		"user/employment": "https://api.robinhood.com/user/employment/",
+		"user/investment_profile": "https://api.robinhood.com/user/investment_profile/",
 		"watchlists": "https://api.robinhood.com/watchlists/"
 		}
 
 	def __init__(self, username, password, account):
 		self.session = requests.session()
 		self.account = account
+		self.username = username
 		self.session.headers = {
 			"Accept": "*/*",
 			"Accept-Encoding": "gzip, deflate",
@@ -40,6 +44,7 @@ class Robinhood(object):
 			"User-Agent": "Robinhood/823 (iPhone; iOS 7.1.2; Scale/2.00)"
 		}
 		self.session.headers['Authorization'] = 'Token ' + self.login(username, password)
+		self.get_user_info()
 
 	def login(self, username, password):
 		data = "username=%s&password=%s" % (username, password)
@@ -61,6 +66,14 @@ class Robinhood(object):
 		res = self.session.get(self.endpoints['quotes'], params=data)
 		if res.status_code == 200:
 			return res.json()['results']
+		else:
+			raise Exception("Could not retrieve quote: " + res.text)
+
+	def quote(self, stock):
+		data = { 'symbols' : stock }
+		res = self.session.get(self.endpoints['quotes'], params=data)
+		if res.status_code == 200:
+			return res.json()['results'][0]['last_trade_price']
 		else:
 			raise Exception("Could not retrieve quote: " + res.text)
 
@@ -95,6 +108,19 @@ class Robinhood(object):
 		side = "sell"
 		return self.place_order(i, quantity, side, order_type, bid_price)
 
+	def order_status(self, order_ID):
+		res = self.session.get(self.endpoints['orders'] + order_ID + "/")
+		if res.status_code == 200:
+			return res.json()
+		else:
+			raise Exception("Could not get order status: " + res.text)
+
+	def advanced_order_status(self, order_ID):
+		''' Will return number of shares completed, average price ... as a dict '''
+
+	def get_order(self, order_ID):
+		''' Will return a dict of order information for a given order ID '''
+
 	def cancel_order(self, order_ID):
 		res = self.session.post(self.endpoints['orders'] + order_ID + "/cancel/")
 		if res.status_code == 200:
@@ -102,6 +128,28 @@ class Robinhood(object):
 		else:
 			raise Exception("Could not cancel order: " + res.text)
 
+	def get_user_info(self):
+		res = self.session.get(self.endpoints['user'])
+		if res.status_code == 200:
+			self.first_name = res.json()['first_name']
+			self.last_name = res.json()['last_name']
+		else:
+			raise Exception("Could not get user info: " + res.text)
+		res = self.session.get(self.endpoints['user/basic_info'])
+		if res.status_code == 200:
+			res = res.json()
+			self.phone_number = res['phone_number']
+			self.city = res['city']
+			self.number_dependents = res['number_dependents']
+			self.citizenship = res['citizenship']
+			self.marital_status = res['marital_status']
+			self.zipcode = res['zipcode']
+			self.state_residence = res['state']
+			self.date_of_birth = res['date_of_birth']
+			self.address = res['address']
+			self.tax_id_ssn = res['tax_id_ssn']
+		else:
+			raise Exception("Could not get basic user info: " + res.text)
 
 
 
