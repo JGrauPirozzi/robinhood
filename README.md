@@ -1,6 +1,6 @@
 # easyRobinhood
 
-Inspired by Rohonpai's Robinhood framework (https://github.com/rohanpai/Robinhood), easyRobinhood fixes bugs while adding new features and additional documentation. 
+Inspired by Rohonpai's Robinhood framework (https://github.com/rohanpai/Robinhood), benkroop/robinhood fixes bugs while adding new features and additional documentation. 
 
 Current Features:
 * Get stock quote
@@ -15,6 +15,19 @@ To install:
 
     pip install -r requirements.txt
 
+Instructions for use:
+---------------------
+Initializing
+
+	r = Robinhood(username, password)
+
+Get price quote
+
+	price = r.quote_prices("AAPL")
+
+Place market order for 3 shares of RJET at best market price
+
+	order_ID = r.place_buy_order("RJET", 3, "market")
 
 Instructions for use:
 
