@@ -13,7 +13,6 @@ Current Features:
 - View current user information
 
 To install
-
 ::
     pip install robinhood
 
