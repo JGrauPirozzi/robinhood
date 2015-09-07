@@ -28,7 +28,12 @@ Place market order for 3 shares of RJET at best market price:
 >>> r.place_buy_order("RJET", 3, "market")
 u'98a8caa4-fddf-df0b-8156-5c474dc01931'
 ```
-Place limit order for 1 share of CSCO at a maximum of $28.42
+Get a quote AAPL
+```python
+>>> r.quote_price('AAPL')
+u'109.2700'
+```
+Place limit order for 1 share of CSCO at a limit of $28.42 per share
 ```python
 >>> r.place_buy_order("CSCO", 1, "limit", 28.42)
 u'52ad96db-4c01-29c8-9951-a31f883853b5'
