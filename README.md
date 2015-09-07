@@ -18,11 +18,10 @@ To install:
 Instructions for use:
 ---------------------
 
-Place market order for 3 shares of RJET at best market price
+Place market order for 3 shares of RJET at best market price:
 
 ```python
 r = Robinhood(username, password)
-price = r.quote_prices("RJET") 
 order_ID = r.place_buy_order("RJET", 3, "market")
 ```
 
