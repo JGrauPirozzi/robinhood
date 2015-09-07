@@ -17,15 +17,12 @@ To install:
 
 Instructions for use:
 ---------------------
-Initializing
+
+Place market order for 3 shares of RJET at best market price
 
 	r = Robinhood(username, password)
 
-Get price quote
-
-	price = r.quote_prices("AAPL")
-
-Place market order for 3 shares of RJET at best market price
+	price = r.quote_prices("RJET") 
 
 	order_ID = r.place_buy_order("RJET", 3, "market")
 
