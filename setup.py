@@ -14,6 +14,6 @@ setup(
         Use Robinhood API from Python
     """,
     license="MIT License (See LICENSE)",
-    long_description=open("README.md").read(),
+    long_description=open("README.rst").read(),
     url="https://github.com/benkroop/robinhood"
 )
