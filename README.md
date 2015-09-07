@@ -28,7 +28,7 @@ Place market order for 3 shares of RJET at best market price:
 >>> r.place_buy_order("RJET", 3, "market")
 u'98a8caa4-fddf-df0b-8156-5c474dc01931'
 ```
-Get a quote AAPL
+Get a quote for AAPL
 ```python
 >>> r.quote_price('AAPL')
 u'109.2700'
