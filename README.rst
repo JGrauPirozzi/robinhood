@@ -12,7 +12,7 @@ Current Features:
 - Retrieve a list of historical orders
 - View current user information
 
-To install:
+To install
 
 ::
     pip install robinhood
