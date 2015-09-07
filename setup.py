@@ -11,7 +11,7 @@ setup(
         "wheel>=0.24.0"
     ],
     description="""
-        Use Robinhood API from Python
+        Automated, commission-free stock trading from Python using Robinhood's API.
     """,
     license="MIT License (See LICENSE)",
     long_description=open("README.rst").read(),
