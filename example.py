@@ -14,18 +14,21 @@ r = Robinhood(username, password)
 # q = r.get_quote("RJET")
 
 ## Place market order of RJET at best market price
-order_ID = r.place_buy_order("RJET", 3, "market")
-print order_ID
+#order_ID = r.place_buy_order("RJET", 3, "market")
+#print order_ID
 
 ## Place limit order for one share of RJET at $6.24 / share
-order_ID = r.place_buy_order("RJET", 1, "limit", 6.24)
-print order_ID
+#order_ID = r.place_buy_order("RJET", 1, "limit", 6.24)
+#print order_ID
 
 ## Get order status
-print r.order_status(order_ID)['state']
+#print r.order_status(order_ID)['state']
 
 ## Cancel an order
-r.cancel_order(order_ID)
+#r.cancel_order(order_ID)
+
+## List orders
+#orders = r.list_orders()
 
 ## Print your current address
 #print "Your address is: " + r.address + ", " + r.city + ", " + r.state_residence + " " + r.zipcode

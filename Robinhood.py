@@ -19,6 +19,7 @@ class Robinhood(object):
 		"margin_upgrades": "https://api.robinhood.com/margin/upgrades/",
 		"markets": "https://api.robinhood.com/markets/",
 		"notifications": "https://api.robinhood.com/notifications/",
+		"notifications/devices": "https://api.robinhood.com/notifications/devices/",
 		"orders": "https://api.robinhood.com/orders/",
 		"password_reset": "https://api.robinhood.com/password_reset/request/",
 		"quotes": "https://api.robinhood.com/quotes/",
@@ -55,6 +56,9 @@ class Robinhood(object):
 			raise Exception("Could not log in: " + res.text)
 
 	def get_account_number(self):
+		''' Returns the brokerage account number of the account logged in. 
+		This is currently only used for placing orders, so you can ignore 
+		method. '''
 		res = self.session.get(self.endpoints['accounts'])
 		if res.status_code == 200:
 			accountURL = res.json()['results'][0]['url']
@@ -63,23 +67,29 @@ class Robinhood(object):
 		else:
 			raise Exception("Could not retrieve account number: " + res.text)
 
-	def instrument(self, stock):
-		res = self.session.get(self.endpoints['instruments'], params={'query':stock.upper()})
+	def instrument(self, symbol):
+		''' Generates an instrument object. Currently this is only used for 
+		placing orders, and generating and using the instrument object are handled
+		for you, so you can ignore this method'''
+		res = self.session.get(self.endpoints['instruments'], params={'query':symbol.upper()})
 		if res.status_code == 200:
 			return res.json()['results']
 		else:
 			raise Exception("Could not generate instrument object: " + res.text)
 
-	def get_quote(self, stock):
-		data = { 'symbols' : stock }
+	def get_quote(self, symbol):
+		''' Returns a qoute object for a given symbol including all data returned
+		by Robinhood's API'''
+		data = { 'symbols' : symbol }
 		res = self.session.get(self.endpoints['quotes'], params=data)
 		if res.status_code == 200:
 			return res.json()['results']
 		else:
 			raise Exception("Could not retrieve quote: " + res.text)
 
-	def quote_price(self, stock):
-		data = { 'symbols' : stock }
+	def quote_price(self, symbol):
+		''' Returns the most recent price of a given symbol '''
+		data = { 'symbols' : symbol }
 		res = self.session.get(self.endpoints['quotes'], params=data)
 		if res.status_code == 200:
 			return res.json()['results'][0]['last_trade_price']
@@ -87,6 +97,9 @@ class Robinhood(object):
 			raise Exception("Could not retrieve quote: " + res.text)
 
 	def place_order(self, instrument, quantity, side, order_type, bid_price=None, time_in_force="gfd", stop_price=None):
+		''' Places an order with Robinhood. Currently both market and limit orders work,
+		but stop_limit and stop_loss orders are coming soon.'''
+
 		data = """account=%s&instrument=%s&quantity=%d&side=%s&symbol=%s&time_in_force=%s&trigger=immediate&type=%s""" % (
 			urllib.quote('https://api.robinhood.com/accounts/' + self.account + '/'), 
 			urllib.unquote(instrument['url']), quantity, side, instrument['symbol'], time_in_force, order_type)
@@ -108,16 +121,20 @@ class Robinhood(object):
 			raise Exception("Could not place order: " + res.text)
 
 	def place_buy_order(self, symbol, quantity, order_type=None, bid_price=None):
+		''' Places a buy order '''
 		i = self.instrument(symbol)[0]
 		side = "buy"
 		return self.place_order(i, quantity, side, order_type, bid_price)
 
 	def place_sell_order(self, symbol, quantity, order_type=None, bid_price=None):
+		''' Places a sell order '''
 		i = self.instrument(symbol)[0]
 		side = "sell"
 		return self.place_order(i, quantity, side, order_type, bid_price)
 
 	def order_status(self, order_ID):
+		''' Returns an order object which contains information about an order 
+		and its status'''
 		res = self.session.get(self.endpoints['orders'] + order_ID + "/")
 		if res.status_code == 200:
 			return res.json()
@@ -130,7 +147,20 @@ class Robinhood(object):
 	def get_order(self, order_ID):
 		''' Will return a dict of order information for a given order ID '''
 
+	def list_orders(self):
+		''' returns a list of all order_IDs, ordered from newest to oldest '''
+		res = self.session.get(self.endpoints['orders'])
+		if res.status_code == 200:
+			orders = []
+			for i in res.json()['results']:
+				URL = i['url']
+				orders.append(URL[URL.index("orders")+7:-1])
+			return orders
+		else:
+			raise Exception("Could not retrieve orders: " + res.text)
+
 	def cancel_order(self, order_ID):
+		''' Cancels order with order_ID'''
 		res = self.session.post(self.endpoints['orders'] + order_ID + "/cancel/")
 		if res.status_code == 200:
 			return res
@@ -138,6 +168,7 @@ class Robinhood(object):
 			raise Exception("Could not cancel order: " + res.text)
 
 	def get_user_info(self):
+		''' Pulls user info from API and stores it in Robinhood object''' 
 		res = self.session.get(self.endpoints['user'])
 		if res.status_code == 200:
 			self.first_name = res.json()['first_name']
