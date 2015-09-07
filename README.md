@@ -13,7 +13,7 @@ Current Features:
 
 To install:
 
-    pip install -r requirements.txt
+    pip install robinhood
 
 Instructions for use:
 ---------------------
@@ -21,8 +21,9 @@ Instructions for use:
 Place market order for 3 shares of RJET at best market price:
 
 ```python
-r = Robinhood(username, password)
-order_ID = r.place_buy_order("RJET", 3, "market")
+>>> r = Robinhood(username, password)
+>>> r.place_buy_order("RJET", 3, "market")
+u'98a90ba4-fddf-440b-8156-5c4a59fe1931'
 ```
 
 Instructions for use:

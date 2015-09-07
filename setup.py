@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="robinhood",
-    version="0.1.1",
+    version="0.1.2",
     author="Ben Kroop",
     author_email="benkroop@gmail.com",
     py_modules=['robinhood'],
