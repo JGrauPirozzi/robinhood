@@ -1,6 +1,6 @@
 # robinhood
 
-Inspired by Rohonpai's Robinhood framework (https://github.com/rohanpai/Robinhood), benkroop/robinhood fixes bugs while adding new features and additional documentation. 
+This library facilitates automated, commission-free stock trading from Python using Robinhood's API.
 
 Current Features:
 * Get stock quote
@@ -14,6 +14,9 @@ Current Features:
 To install:
 
     pip install robinhood
+
+
+Inspired by Rohonpai's Robinhood framework (https://github.com/rohanpai/Robinhood), benkroop/robinhood fixes bugs while adding new features and additional documentation. 
 
 Instructions for use:
 ---------------------
