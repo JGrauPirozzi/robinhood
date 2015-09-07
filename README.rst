@@ -23,8 +23,7 @@ Inspired by Rohonpai's Robinhood framework (https://github.com/rohanpai/Robinhoo
 Instructions for use:
 ---------------------
 
-Place market order for 3 shares of RJET at best market price:
-
+Place market order for 3 shares of RJET at best market price
 ::
 	>>> r = Robinhood(username, password)
 	>>> r.place_buy_order("RJET", 3, "market")
