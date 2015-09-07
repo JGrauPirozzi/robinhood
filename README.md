@@ -64,3 +64,5 @@ Print selected user info
 >>> print "Your address is: %s, %s, %s %s" % (r.address, r.city, r.state_residence, r.zipcode)
 Your address is: 1000 Olin Way, Needham, MA 024921200
 ```
+
+To use example.py, first edit auth.txt to include your username and password, each on their own line. You can then uncomment any commands you want to run.
