@@ -1,8 +1,8 @@
 from Robinhood import robinhood
 
 with open('auth.txt', 'r') as f:
-	username = f.readline()
-	password = f.readline()
+    username = f.readline()
+    password = f.readline()
 
 # Create a robinhood object
 r = Robinhood(username, password)
