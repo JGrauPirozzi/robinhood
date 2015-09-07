@@ -21,8 +21,8 @@ r = Robinhood(username, password)
 #order_ID = r.place_buy_order("RJET", 1, "limit", 6.24)
 #print order_ID
 
-## Get order status
-#print r.order_status(order_ID)['state']
+## Get order details
+#print r.order_details(order_ID)
 
 ## Cancel an order
 #r.cancel_order(order_ID)
@@ -32,3 +32,5 @@ r = Robinhood(username, password)
 
 ## Print your current address
 #print "Your address is: " + r.address + ", " + r.city + ", " + r.state_residence + " " + r.zipcode
+
+#print r.list_order_details()

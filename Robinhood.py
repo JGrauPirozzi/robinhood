@@ -132,7 +132,7 @@ class Robinhood(object):
 		side = "sell"
 		return self.place_order(i, quantity, side, order_type, bid_price)
 
-	def order_status(self, order_ID):
+	def order_details(self, order_ID):
 		''' Returns an order object which contains information about an order 
 		and its status'''
 		res = self.session.get(self.endpoints['orders'] + order_ID + "/")
@@ -140,6 +140,10 @@ class Robinhood(object):
 			return res.json()
 		else:
 			raise Exception("Could not get order status: " + res.text)
+
+	def order_status(self, order_ID):
+		''' Returns an order status string'''
+		return self.order_details(order_ID)['state']
 
 	def advanced_order_status(self, order_ID):
 		''' Will return number of shares completed, average price ... as a dict '''
@@ -158,6 +162,16 @@ class Robinhood(object):
 			return orders
 		else:
 			raise Exception("Could not retrieve orders: " + res.text)
+
+	def list_order_details(self):
+		''' Generates a dictionary where keys are order_IDs and values are 
+		order objects. '''
+		detailed_orders = {}
+		for i in self.list_orders():
+			order = self.order_details(i)
+			order['symbol'] = self.session.get(order['instrument']).json()['symbol']
+			detailed_orders[i] = order
+		return detailed_orders
 
 	def cancel_order(self, order_ID):
 		''' Cancels order with order_ID'''
