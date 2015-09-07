@@ -8,7 +8,8 @@ with open('auth.txt', 'r') as f:
 r = Robinhood(username, password)
 
 ## Get stock price quote
-# price = r.quote_price("RJET")
+price = r.quote_price("RJET")
+print price
 
 ## Get full instrument quote object
 # q = r.get_quote("RJET")
