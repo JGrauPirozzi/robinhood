@@ -1,6 +1,5 @@
 import requests
 import urllib
-from decimal import *
 
 class Robinhood(object):
 
