@@ -17,9 +17,9 @@ To install:
 
 
 Instructions for use:
-1. Update auth.txt with your Robinhood username and password.
-2. Uncomment any commands in example.py that you want to run.
-3. Run:
+1.  Update auth.txt with your Robinhood username and password.
+2.  Uncomment any commands in example.py that you want to run.
+3.  Run:
 
 	python example.py
 
