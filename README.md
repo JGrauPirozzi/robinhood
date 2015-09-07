@@ -61,6 +61,6 @@ Get details of most recent order
 ```
 Print selected user info
 ```python
->>> print "Your address is: " + r.address + ", " + r.city + ", " + r.state_residence + " " + r.zipcode
-Your address is: 121 Amherst St., Boston, MA 02111
+>>> print "Your address is: %s, %s, %s %s" % (r.address, r.city, r.state_residence, r.zipcode)
+Your address is: 1000 Olin Way, Needham, MA 024921200
 ```
