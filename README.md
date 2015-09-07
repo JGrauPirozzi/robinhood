@@ -20,11 +20,11 @@ Instructions for use:
 
 Place market order for 3 shares of RJET at best market price
 
-	r = Robinhood(username, password)
-
-	price = r.quote_prices("RJET") 
-
-	order_ID = r.place_buy_order("RJET", 3, "market")
+```python
+r = Robinhood(username, password)
+price = r.quote_prices("RJET") 
+order_ID = r.place_buy_order("RJET", 3, "market")
+```
 
 Instructions for use:
 
